@@ -146,7 +146,7 @@ class LoginScreen: UIView {
         NSLayoutConstraint.activate([
             
             // logoImageView acima do titleLabel
-            logoImageView.bottomAnchor.constraint(equalTo: titleLabel.topAnchor),
+            logoImageView.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -10),
             logoImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             logoImageView.heightAnchor.constraint(equalToConstant: 150),
             logoImageView.widthAnchor.constraint(equalToConstant: 150),

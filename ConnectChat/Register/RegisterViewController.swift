@@ -18,9 +18,37 @@ class RegisterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setDelegates()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    private func setDelegates() {
+        registerScreen?.configTextFieldDelegate(delegate: self)
+        registerScreen?.delegate(delegate: self)
+    }
+}
+
+extension RegisterViewController: UITextFieldDelegate {
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        print("textFieldDidBeginEditing")
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print("textFieldDidEndEditing")
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
+extension RegisterViewController: RegisterScreenProtocol {
+    func actionRegisterButton() {
+        print("Usuário Registrado Com Sucesso!")
+    }
+    
+    func actionLoginButton() {
+        navigationController?.popViewController(animated: true)
     }
 }

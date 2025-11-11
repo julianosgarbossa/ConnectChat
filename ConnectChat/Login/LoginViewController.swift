@@ -59,8 +59,6 @@ extension LoginViewController: LoginScreenProtocol {
     }
     
     func actionRegisterButton() {
-        navigationItem.backButtonTitle = "Login"
-        navigationController?.navigationBar.tintColor = UIColor.white.withAlphaComponent(0.7)
         let registerViewController = RegisterViewController()
         navigationController?.pushViewController(registerViewController, animated: true)
     }
