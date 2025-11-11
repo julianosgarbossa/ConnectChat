@@ -7,7 +7,15 @@
 
 import UIKit
 
+protocol LoginScreenProtocol: AnyObject {
+    func actionLoginButton()
+    func actionForgotPasswordButton()
+    func actionRegisterButton()
+}
+
 class LoginScreen: UIView {
+    
+    private weak var delegate: LoginScreenProtocol?
 
     private lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -92,15 +100,15 @@ class LoginScreen: UIView {
     }()
     
     @objc private func tappedLoginButton(_ sender: UIButton) {
-        print("Login Efetuado Com Sucesso!")
+        self.delegate?.actionLoginButton()
     }
     
     @objc private func tappedForgotPasswordButton(_ sender: UIButton) {
-        print("A Funcionalidade Recuperar Senha Será Implementada Em Breve!")
+        self.delegate?.actionForgotPasswordButton()
     }
     
     @objc private func tappedRegisterButton(_ sender: UIButton) {
-        print("Usuário Cadastrado Com Sucesso!")
+        self.delegate?.actionRegisterButton()
     }
     
     override init(frame: CGRect) {
@@ -205,5 +213,14 @@ class LoginScreen: UIView {
         containerView.addSubview(icon)
         textField.leftView = containerView
         textField.leftViewMode = .always
+    }
+    
+    public func configTextFieldDelegate(delegate: UITextFieldDelegate) {
+        emailTextField.delegate = delegate
+        passwordTextField.delegate = delegate
+    }
+    
+    public func delegate(delegate: LoginScreenProtocol?) {
+        self.delegate = delegate
     }
 }
