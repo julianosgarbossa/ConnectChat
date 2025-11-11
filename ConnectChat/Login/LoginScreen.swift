@@ -1,14 +1,14 @@
 //
-//  LoginViewController.swift
+//  LoginScreen.swift
 //  ConnectChat
 //
-//  Created by Juliano Sgarbossa on 10/11/25.
+//  Created by Juliano Sgarbossa on 11/11/25.
 //
 
 import UIKit
 
-class LoginViewController: UIViewController {
-    
+class LoginScreen: UIView {
+
     private lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -102,34 +102,34 @@ class LoginViewController: UIViewController {
     @objc private func tappedRegisterButton(_ sender: UIButton) {
         print("Usuário Cadastrado Com Sucesso!")
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         self.setVisualElements()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func layoutSubviews() {
+        super.layoutSubviews()
         applyGradientToButton()
     }
     
     private func setVisualElements() {
-        view.backgroundColor = UIColor(red: 11/255, green: 60/255, blue: 73/255, alpha: 1.0)
+        backgroundColor = UIColor(red: 11/255, green: 60/255, blue: 73/255, alpha: 1.0)
         setupLeftIcon(for: emailTextField, systemName: "envelope")
         setupLeftIcon(for: passwordTextField, systemName: "lock")
         
-        view.addSubview(logoImageView)
-        view.addSubview(titleLabel)
-        view.addSubview(subTitleLabel)
-        view.addSubview(emailTextField)
-        view.addSubview(passwordTextField)
-        view.addSubview(loginButton)
-        view.addSubview(forgotPasswordButton)
-        view.addSubview(registerButton)
+        addSubview(logoImageView)
+        addSubview(titleLabel)
+        addSubview(subTitleLabel)
+        addSubview(emailTextField)
+        addSubview(passwordTextField)
+        addSubview(loginButton)
+        addSubview(forgotPasswordButton)
+        addSubview(registerButton)
         
         self.setConstraints()
     }
@@ -139,23 +139,23 @@ class LoginViewController: UIViewController {
             
             // logoImageView acima do titleLabel
             logoImageView.bottomAnchor.constraint(equalTo: titleLabel.topAnchor),
-            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logoImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             logoImageView.heightAnchor.constraint(equalToConstant: 150),
             logoImageView.widthAnchor.constraint(equalToConstant: 150),
             
             // titleLabel acima do subTitleLabel
             titleLabel.bottomAnchor.constraint(equalTo: subTitleLabel.topAnchor, constant: -4),
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             // subTitleLabel acima do emailTextField
             subTitleLabel.bottomAnchor.constraint(equalTo: emailTextField.topAnchor, constant: -40),
-            subTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            subTitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             // centraliza o emailTextField no meio da tela
-            emailTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -10),
-            emailTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            emailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            emailTextField.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -10),
+            emailTextField.centerXAnchor.constraint(equalTo: centerXAnchor),
+            emailTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            emailTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             emailTextField.heightAnchor.constraint(equalToConstant: 50),
             
             // passwordTextField abaixo do emailTextField
@@ -176,7 +176,7 @@ class LoginViewController: UIViewController {
             
             // registerButton abaixo do forgotPasswordButton
             registerButton.topAnchor.constraint(equalTo: forgotPasswordButton.bottomAnchor, constant: 30),
-            registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            registerButton.centerXAnchor.constraint(equalTo: centerXAnchor),
         ])
     }
     
@@ -207,4 +207,3 @@ class LoginViewController: UIViewController {
         textField.leftViewMode = .always
     }
 }
-
