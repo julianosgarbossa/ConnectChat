@@ -156,30 +156,30 @@ class RegisterScreen: UIView {
             subTitleLabel.bottomAnchor.constraint(equalTo: nameTextField.topAnchor, constant: -40),
             subTitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             
-            // nameTextField acima do emailTextField
-            nameTextField.bottomAnchor.constraint(equalTo: emailTextField.topAnchor, constant: -16),
-            nameTextField.leadingAnchor.constraint(equalTo: emailTextField.leadingAnchor),
-            nameTextField.trailingAnchor.constraint(equalTo: emailTextField.trailingAnchor),
-            nameTextField.heightAnchor.constraint(equalTo: emailTextField.heightAnchor),
+            // centraliza o nameTextField no meio da tela
+            nameTextField.centerYAnchor.constraint(equalTo: centerYAnchor),
+            nameTextField.centerXAnchor.constraint(equalTo: centerXAnchor),
+            nameTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            nameTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            nameTextField.heightAnchor.constraint(equalToConstant: 50),
             
-            // centraliza o emailTextField no meio da tela
-            emailTextField.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 40),
-            emailTextField.centerXAnchor.constraint(equalTo: centerXAnchor),
-            emailTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            emailTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            emailTextField.heightAnchor.constraint(equalToConstant: 50),
+            // emailTextField abaixo do nameTextField
+            emailTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 16),
+            emailTextField.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
+            emailTextField.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
+            emailTextField.heightAnchor.constraint(equalTo: nameTextField.heightAnchor),
             
             // passwordTextField abaixo do emailTextField
             passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 16),
-            passwordTextField.leadingAnchor.constraint(equalTo: emailTextField.leadingAnchor),
-            passwordTextField.trailingAnchor.constraint(equalTo: emailTextField.trailingAnchor),
-            passwordTextField.heightAnchor.constraint(equalTo: emailTextField.heightAnchor),
+            passwordTextField.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
+            passwordTextField.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
+            passwordTextField.heightAnchor.constraint(equalTo: nameTextField.heightAnchor),
             
             // registerButton abaixo do passwordTextField
             registerButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 20),
-            registerButton.leadingAnchor.constraint(equalTo: emailTextField.leadingAnchor),
-            registerButton.trailingAnchor.constraint(equalTo: emailTextField.trailingAnchor),
-            registerButton.heightAnchor.constraint(equalTo: emailTextField.heightAnchor),
+            registerButton.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
+            registerButton.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
+            registerButton.heightAnchor.constraint(equalTo: nameTextField.heightAnchor),
             
             // loginButton abaixo do forgotPasswordButton
             loginButton.topAnchor.constraint(equalTo: registerButton.bottomAnchor, constant: 30),

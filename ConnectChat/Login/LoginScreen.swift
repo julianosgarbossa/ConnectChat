@@ -160,7 +160,7 @@ class LoginScreen: UIView {
             subTitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             // centraliza o emailTextField no meio da tela
-            emailTextField.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -10),
+            emailTextField.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 10),
             emailTextField.centerXAnchor.constraint(equalTo: centerXAnchor),
             emailTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             emailTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
