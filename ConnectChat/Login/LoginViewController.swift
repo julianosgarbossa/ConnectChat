@@ -11,8 +11,8 @@ import FirebaseAuth
 class LoginViewController: UIViewController {
 
     private var loginScreen: LoginScreen?
-    
     private var auth: Auth?
+    private var alert: Alert?
     
     override func loadView() {
         loginScreen = LoginScreen()
@@ -23,6 +23,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         self.setDelegates()
         self.auth = Auth.auth()
+        self.alert = Alert(controller: self)
     }
     
     private func setDelegates() {
@@ -57,21 +58,20 @@ extension LoginViewController: LoginScreenProtocol {
             if error == nil {
                 
                 if result != nil {
-                    print("Usuário logado com sucesso!")
+                    self.alert?.getAlert(title: "Parabens", message: "Usuário logado com sucesso!")
+                    self.loginScreen?.cleanTextFields()
                 } else {
-                    print("Tivemos um problema inesperado, tente novamente mais tarde!")
+                    self.alert?.getAlert(title: "Atenção", message: "Tivemos um problema inesperado, tente novamente mais tarde!")
                 }
             } else {
-                print("Email ou senha incorreto, tente novamente!")
+                self.alert?.getAlert(title: "Atenção", message: "Email ou senha incorreto, tente novamente!")
             }
         }
-            
-        loginScreen?.cleanTextFields()
         loginScreen?.validateTextFields()
     }
     
     func actionForgotPasswordButton() {
-        print("A Funcionalidade Recuperar Senha Será Implementada Em Breve!")
+        alert?.getAlert(title: "Atenção", message: "A funcionalidade recuperar senha ainda não foi implementada, tente novamente mais tarde!")
     }
     
     func actionRegisterButton() {
