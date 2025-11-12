@@ -251,4 +251,12 @@ class LoginScreen: UIView {
         emailTextField.text = ""
         passwordTextField.text = ""
     }
+    
+    public func getEmail() -> String {
+        return emailTextField.text ?? ""
+    }
+    
+    public func getPassword() -> String {
+        return passwordTextField.text ?? ""
+    }
 }
