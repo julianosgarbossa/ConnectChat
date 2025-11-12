@@ -29,17 +29,14 @@ class LoginViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        loginScreen?.validateTextFields()
     }
 }
 
 extension LoginViewController: UITextFieldDelegate {
-
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        print("textFieldDidBeginEditing")
-    }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        print("textFieldDidEndEditing")
+        loginScreen?.validateTextFields()
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -52,6 +49,8 @@ extension LoginViewController: LoginScreenProtocol {
    
     func actionLoginButton() {
         print("Login Efetuado Com Sucesso!")
+        loginScreen?.cleanTextFields()
+        loginScreen?.validateTextFields()
     }
     
     func actionForgotPasswordButton() {
@@ -61,6 +60,10 @@ extension LoginViewController: LoginScreenProtocol {
     func actionRegisterButton() {
         let registerViewController = RegisterViewController()
         navigationController?.pushViewController(registerViewController, animated: true)
+    }
+    
+    func actionTextDidChange() {
+        loginScreen?.validateTextFields()
     }
 }
 

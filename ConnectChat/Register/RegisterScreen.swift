@@ -10,6 +10,7 @@ import UIKit
 protocol RegisterScreenProtocol: AnyObject {
     func actionRegisterButton()
     func actionLoginButton()
+    func actionTextDidChange()
 }
 
 class RegisterScreen: UIView {
@@ -45,26 +46,28 @@ class RegisterScreen: UIView {
     }()
     
     private lazy var nameTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.translatesAutoresizingMaskIntoConstraints = false
-        textfield.attributedPlaceholder = NSAttributedString(string: "Nome", attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.6)])
-        textfield.textColor = .white
-        textfield.backgroundColor = UIColor(red: 6/255, green: 46/255, blue: 56/255, alpha: 1.0)
-        textfield.layer.cornerRadius = 8
-        textfield.autocapitalizationType = .none
-        return textfield
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.attributedPlaceholder = NSAttributedString(string: "Nome", attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.6)])
+        textField.textColor = .white
+        textField.backgroundColor = UIColor(red: 6/255, green: 46/255, blue: 56/255, alpha: 1.0)
+        textField.layer.cornerRadius = 8
+        textField.autocapitalizationType = .none
+        textField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        return textField
     }()
     
     private lazy var emailTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.translatesAutoresizingMaskIntoConstraints = false
-        textfield.attributedPlaceholder = NSAttributedString(string: "E-mail", attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.6)])
-        textfield.textColor = .white
-        textfield.backgroundColor = UIColor(red: 6/255, green: 46/255, blue: 56/255, alpha: 1.0)
-        textfield.layer.cornerRadius = 8
-        textfield.autocapitalizationType = .none
-        textfield.keyboardType = .emailAddress
-        return textfield
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.attributedPlaceholder = NSAttributedString(string: "E-mail", attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.6)])
+        textField.textColor = .white
+        textField.backgroundColor = UIColor(red: 6/255, green: 46/255, blue: 56/255, alpha: 1.0)
+        textField.layer.cornerRadius = 8
+        textField.autocapitalizationType = .none
+        textField.keyboardType = .emailAddress
+        textField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        return textField
     }()
     
     private lazy var passwordTextField: UITextField = {
@@ -75,6 +78,7 @@ class RegisterScreen: UIView {
         textField.textColor = .white
         textField.backgroundColor = UIColor(red: 6/255, green: 46/255, blue: 56/255, alpha: 1.0)
         textField.layer.cornerRadius = 8
+        textField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         return textField
     }()
     
@@ -105,6 +109,10 @@ class RegisterScreen: UIView {
     
     @objc private func tappedLoginButton(_ sender: UIButton) {
         self.delegate?.actionLoginButton()
+    }
+    
+    @objc private func textDidChange(_ sender: UITextField) {
+        self.delegate?.actionTextDidChange()
     }
     
     override init(frame: CGRect) {
@@ -214,6 +222,11 @@ class RegisterScreen: UIView {
         textField.leftViewMode = .always
     }
     
+    private func setButtonEnable(enable: Bool) {
+        registerButton.isEnabled = enable
+        registerButton.alpha = enable ? 1.0 : 0.4
+    }
+    
     public func configTextFieldDelegate(delegate: UITextFieldDelegate) {
         nameTextField.delegate = delegate
         emailTextField.delegate = delegate
@@ -224,4 +237,21 @@ class RegisterScreen: UIView {
         self.delegate = delegate
     }
     
+    public func validateTextFields() {
+        let name: String = nameTextField.text ?? ""
+        let email: String  = emailTextField.text ?? ""
+        let password: String = passwordTextField.text ?? ""
+        
+        if !name.isEmpty && !email.isEmpty && !password.isEmpty {
+            setButtonEnable(enable: true)
+        } else {
+            setButtonEnable(enable: false)
+        }
+    }
+    
+    public func cleanTextFields() {
+        nameTextField.text = ""
+        emailTextField.text = ""
+        passwordTextField.text = ""
+    }
 }

@@ -21,6 +21,10 @@ class RegisterViewController: UIViewController {
         self.setDelegates()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        registerScreen?.validateTextFields()
+    }
+    
     private func setDelegates() {
         registerScreen?.configTextFieldDelegate(delegate: self)
         registerScreen?.delegate(delegate: self)
@@ -28,13 +32,9 @@ class RegisterViewController: UIViewController {
 }
 
 extension RegisterViewController: UITextFieldDelegate {
-
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        print("textFieldDidBeginEditing")
-    }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        print("textFieldDidEndEditing")
+        registerScreen?.validateTextFields()
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -44,11 +44,18 @@ extension RegisterViewController: UITextFieldDelegate {
 }
 
 extension RegisterViewController: RegisterScreenProtocol {
+    
     func actionRegisterButton() {
         print("Usuário Registrado Com Sucesso!")
+        registerScreen?.cleanTextFields()
+        registerScreen?.validateTextFields()
     }
     
     func actionLoginButton() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    func actionTextDidChange() {
+        registerScreen?.validateTextFields()
     }
 }

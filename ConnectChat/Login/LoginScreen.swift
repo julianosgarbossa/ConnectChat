@@ -11,6 +11,7 @@ protocol LoginScreenProtocol: AnyObject {
     func actionLoginButton()
     func actionForgotPasswordButton()
     func actionRegisterButton()
+    func actionTextDidChange()
 }
 
 class LoginScreen: UIView {
@@ -46,15 +47,16 @@ class LoginScreen: UIView {
     }()
         
     private lazy var emailTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.translatesAutoresizingMaskIntoConstraints = false
-        textfield.attributedPlaceholder = NSAttributedString(string: "E-mail", attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.6)])
-        textfield.textColor = .white
-        textfield.backgroundColor = UIColor(red: 6/255, green: 46/255, blue: 56/255, alpha: 1.0)
-        textfield.layer.cornerRadius = 8
-        textfield.autocapitalizationType = .none
-        textfield.keyboardType = .emailAddress
-        return textfield
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.attributedPlaceholder = NSAttributedString(string: "E-mail", attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.6)])
+        textField.textColor = .white
+        textField.backgroundColor = UIColor(red: 6/255, green: 46/255, blue: 56/255, alpha: 1.0)
+        textField.layer.cornerRadius = 8
+        textField.autocapitalizationType = .none
+        textField.keyboardType = .emailAddress
+        textField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        return textField
     }()
     
     private lazy var passwordTextField: UITextField = {
@@ -65,6 +67,7 @@ class LoginScreen: UIView {
         textField.textColor = .white
         textField.backgroundColor = UIColor(red: 6/255, green: 46/255, blue: 56/255, alpha: 1.0)
         textField.layer.cornerRadius = 8
+        textField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         return textField
     }()
     
@@ -109,6 +112,10 @@ class LoginScreen: UIView {
     
     @objc private func tappedRegisterButton(_ sender: UIButton) {
         self.delegate?.actionRegisterButton()
+    }
+    
+    @objc private func textDidChange(_ sender: UITextField) {
+        self.delegate?.actionTextDidChange()
     }
     
     override init(frame: CGRect) {
@@ -215,6 +222,11 @@ class LoginScreen: UIView {
         textField.leftViewMode = .always
     }
     
+    private func setButtonEnable(enable: Bool) {
+        loginButton.isEnabled = enable
+        loginButton.alpha = enable ? 1.0 : 0.4
+    }
+    
     public func configTextFieldDelegate(delegate: UITextFieldDelegate) {
         emailTextField.delegate = delegate
         passwordTextField.delegate = delegate
@@ -222,5 +234,21 @@ class LoginScreen: UIView {
     
     public func delegate(delegate: LoginScreenProtocol?) {
         self.delegate = delegate
+    }
+    
+    public func validateTextFields() {
+        let email: String  = emailTextField.text ?? ""
+        let password: String = passwordTextField.text ?? ""
+        
+        if !email.isEmpty && !password.isEmpty {
+            setButtonEnable(enable: true)
+        } else {
+            setButtonEnable(enable: false)
+        }
+    }
+    
+    public func cleanTextFields() {
+        emailTextField.text = ""
+        passwordTextField.text = ""
     }
 }
