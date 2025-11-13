@@ -63,9 +63,9 @@ extension RegisterViewController: RegisterScreenProtocol {
         self.auth?.createUser(withEmail: register.getEmail(), password: register.getPassword()) { result, error in
             if error == nil {
                 // salvar dados no firebase
-                if let idUsuario = result?.user.uid {
-                    self.firestore?.collection("usuarios").document(idUsuario).setData([
-                        "id" : idUsuario,
+                if let idUser = result?.user.uid {
+                    self.firestore?.collection("users").document(idUser).setData([
+                        "id" : idUser,
                         "name" : self.registerScreen?.getName() ?? "",
                         "email" : self.registerScreen?.getEmail() ?? ""
                     ])

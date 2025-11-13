@@ -21,6 +21,10 @@ class HomeScreen: UIView {
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.delaysContentTouches = false
+        tableView.separatorColor = .white
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        tableView.register(MessageLastTableViewCell.self, forCellReuseIdentifier: MessageLastTableViewCell.identifier)
+        tableView.register(MessageDetailTableViewCell.self, forCellReuseIdentifier: MessageDetailTableViewCell.identifier)
         return tableView
     }()
 
@@ -65,7 +69,7 @@ class HomeScreen: UIView {
         tableView.dataSource = dataSource
     }
     
-    public func realoadTableView() {
+    public func reloadTableView() {
         tableView.reloadData()
     }
 }

@@ -2,12 +2,17 @@
 //  User.swift
 //  ConnectChat
 //
-//  Created by Juliano Sgarbossa on 12/11/25.
+//  Created by Juliano Sgarbossa on 13/11/25.
 //
 
 import Foundation
 
 struct User {
-    var name: String
-    var nameImage: String
+    var name: String?
+    var email: String?
+    
+    init(dictionary: [String:Any]) {
+        self.name = dictionary["name"] as? String
+        self.email = dictionary["email"] as? String
+    }
 }
