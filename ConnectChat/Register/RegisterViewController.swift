@@ -7,12 +7,16 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
+import FirebaseStorage
 
 class RegisterViewController: UIViewController {
 
     private var registerScreen: RegisterScreen?
-    private var auth: Auth?
     private var alert: Alert?
+    private var auth: Auth?
+    private var firestore: Firestore?
+    private var storage: Storage?
     
     override func loadView() {
         registerScreen = RegisterScreen()
@@ -23,6 +27,8 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         self.setDelegates()
         self.auth = Auth.auth()
+        self.firestore = Firestore.firestore()
+        self.storage = Storage.storage()
         self.alert = Alert(controller: self)
     }
     
@@ -56,7 +62,17 @@ extension RegisterViewController: RegisterScreenProtocol {
         
         self.auth?.createUser(withEmail: register.getEmail(), password: register.getPassword()) { result, error in
             if error == nil {
+                // salvar dados no firebase
+                if let idUsuario = result?.user.uid {
+                    self.firestore?.collection("usuarios").document(idUsuario).setData([
+                        "id" : idUsuario,
+                        "name" : self.registerScreen?.getName() ?? "",
+                        "email" : self.registerScreen?.getEmail() ?? ""
+                    ])
+                }
+                
                 self.registerScreen?.cleanTextFields()
+                
                 self.alert?.getAlert(title: "Parabens", message: "Usuário cadastrado com sucesso!") {
                     self.navigationController?.popViewController(animated: true)
                 }

@@ -255,6 +255,10 @@ class RegisterScreen: UIView {
         passwordTextField.text = ""
     }
     
+    public func getName() -> String {
+        return nameTextField.text ?? ""
+    }
+    
     public func getEmail() -> String {
         return emailTextField.text ?? ""
     }
