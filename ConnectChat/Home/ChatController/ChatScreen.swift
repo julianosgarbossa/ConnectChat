@@ -23,6 +23,16 @@ class ChatScreen: UIView {
         return view
     }()
     
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.backgroundColor = UIColor(red: 6/255, green: 46/255, blue: 56/255, alpha: 1.0)
+        tableView.transform = CGAffineTransform(scaleX: 1, y: 1)
+        tableView.separatorStyle = .none
+        tableView.tableFooterView = UIView()
+        return tableView
+    }()
+    
     private lazy var messageInputView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -38,6 +48,23 @@ class ChatScreen: UIView {
         return view
     }()
     
+    private lazy var inputMessageTextField: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.attributedPlaceholder = NSAttributedString(string: "Digite aqui", attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.6)])
+        textField.textColor = .white
+        textField.backgroundColor = UIColor(red: 6/255, green: 46/255, blue: 56/255, alpha: 1.0)
+        textField.autocapitalizationType = .none
+        textField.layer.cornerRadius = 8
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 0))
+        textField.leftViewMode = .always
+        textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 0))
+        textField.rightViewMode = .always
+        textField.delegate = self
+        textField.addTarget(self, action: #selector(textFieldDidChange), for: UIControl.Event.editingChanged)
+        return textField
+    }()
+    
     private lazy var sendButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -50,32 +77,10 @@ class ChatScreen: UIView {
         button.isEnabled = false
         button.layer.opacity = 0.4
         button.transform = .init(scaleX: 0.8, y: 0.8)
+        button.setImage(UIImage(systemName: "paperplane")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = .white
         button.addTarget(self, action: #selector(tappedSendButton), for: .touchUpInside)
-        let image = UIImage(systemName: "paperplane")?.withRenderingMode(.alwaysTemplate)
-        image?.withTintColor(.white)
-        button.setImage(image, for: .normal)
         return button
-    }()
-    
-    private lazy var inputMessageTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.attributedPlaceholder = NSAttributedString(string: "Digite aqui", attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.6)])
-        textField.textColor = .white
-        textField.backgroundColor = UIColor(red: 6/255, green: 46/255, blue: 56/255, alpha: 1.0)
-        textField.autocapitalizationType = .none
-        textField.addTarget(self, action: #selector(textFieldDidChange), for: UIControl.Event.editingChanged)
-        return textField
-    }()
-    
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = UIColor(red: 6/255, green: 46/255, blue: 56/255, alpha: 1.0)
-        tableView.transform = CGAffineTransform(scaleX: 1, y: 1)
-        tableView.separatorStyle = .none
-        tableView.tableFooterView = UIView()
-        return tableView
     }()
     
     @objc private func tappedSendButton(_ sender: UIButton) {
@@ -147,22 +152,22 @@ class ChatScreen: UIView {
             messageInputView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             messageInputView.leadingAnchor.constraint(equalTo: leadingAnchor),
             messageInputView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            messageInputView.heightAnchor.constraint(equalToConstant: 80),
+            messageInputView.heightAnchor.constraint(equalToConstant: 100),
             
             messageBar.centerYAnchor.constraint(equalTo: messageInputView.centerYAnchor),
-            messageBar.leadingAnchor.constraint(equalTo: messageInputView.leadingAnchor, constant: 20),
-            messageBar.trailingAnchor.constraint(equalTo: messageInputView.trailingAnchor, constant: -20),
-            messageBar.heightAnchor.constraint(equalToConstant: 55),
+            messageBar.leadingAnchor.constraint(equalTo: messageInputView.leadingAnchor, constant: 30),
+            messageBar.trailingAnchor.constraint(equalTo: messageInputView.trailingAnchor, constant: -30),
+            messageBar.heightAnchor.constraint(equalToConstant: 50),
             
             sendButton.centerYAnchor.constraint(equalTo: messageBar.centerYAnchor),
             sendButton.trailingAnchor.constraint(equalTo: messageBar.trailingAnchor),
-            sendButton.heightAnchor.constraint(equalToConstant: 55),
-            sendButton.widthAnchor.constraint(equalToConstant: 55),
+            sendButton.heightAnchor.constraint(equalToConstant: 50),
+            sendButton.widthAnchor.constraint(equalToConstant: 50),
             
             inputMessageTextField.centerYAnchor.constraint(equalTo: messageBar.centerYAnchor),
             inputMessageTextField.leadingAnchor.constraint(equalTo: messageBar.leadingAnchor),
-            inputMessageTextField.leadingAnchor.constraint(equalTo: messageBar.leadingAnchor),
-            inputMessageTextField.heightAnchor.constraint(equalToConstant: 55),
+            inputMessageTextField.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -20),
+            inputMessageTextField.heightAnchor.constraint(equalToConstant: 50),
         ])
     }
     
@@ -191,14 +196,14 @@ extension ChatScreen: UITextFieldDelegate {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
                 self.sendButton.isEnabled = false
                 self.sendButton.layer.opacity = 0.4
-                self.sendButton.transform = .init(scaleX: 0.8, y: 0.8)
+//                self.sendButton.transform = .init(scaleX: 0.8, y: 0.8)
             }, completion: { _ in
             })
         } else {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
                 self.sendButton.isEnabled = true
                 self.sendButton.layer.opacity = 1.0
-                self.sendButton.transform = .identity
+//                self.sendButton.transform = .identity
             }, completion: { _ in
             })
         }
