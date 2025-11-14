@@ -123,14 +123,12 @@ extension HomeViewController: UITableViewDelegate {
                     self.conect?.addContact(email: value, emailUserLogged: self.emailUserLogged ?? "", idUser: self.idUserLogged ?? "")
                 }
             } else {
-                // TO DO
+                let chatViewController = ChatViewController()
+                navigationController?.pushViewController(chatViewController, animated: true)
             }
         } else {
             // TO DO
         }
-        
-        
-        alert?.getAlert(title: "Temporário", message: "Exibir tela de detalhes da conversa")
     }
 }
 
