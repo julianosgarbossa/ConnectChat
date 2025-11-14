@@ -97,8 +97,6 @@ class ChatScreen: UIView {
             
             bottomContraint?.constant = isKeyboardShowing ? -keyboardHeight : 0
             
-            tableView.center.y = isKeyboardShowing ? tableView.center.y - keyboardHeight : tableView.center.y + keyboardHeight
-            
             UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseOut, animations: {
                 self.layoutIfNeeded()
             }, completion: { completed in
@@ -114,9 +112,8 @@ class ChatScreen: UIView {
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: UIResponder.keyboardWillHideNotification, object: nil)
         
-        self.bottomContraint = NSLayoutConstraint(item: self.messageInputView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0)
-        
-        self.addConstraint(bottomContraint ?? NSLayoutConstraint())
+        bottomContraint = messageInputView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        bottomContraint?.isActive = true
         
         self.inputMessageTextField.becomeFirstResponder()
     }
@@ -150,7 +147,6 @@ class ChatScreen: UIView {
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: messageInputView.topAnchor),
             
-            messageInputView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             messageInputView.leadingAnchor.constraint(equalTo: leadingAnchor),
             messageInputView.trailingAnchor.constraint(equalTo: trailingAnchor),
             messageInputView.heightAnchor.constraint(equalToConstant: 100),
