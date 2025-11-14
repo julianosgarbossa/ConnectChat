@@ -62,6 +62,11 @@ class ChatViewController: UIViewController {
             nameContact = name
         }
     }
+
+    public func configure(contact: Contact) {
+        self.contact = contact
+        self.nameContact = contact.name
+    }
     
     private func addListenerRecoveryMessages() {
         if let idDestination = contact?.id {
@@ -76,8 +81,6 @@ class ChatViewController: UIViewController {
                         self.listMessage.append(Message(dictionary: dados))
                     }
                     self.chatScreen?.reloadTableView()
-                    print("ID destino:", self.contact?.id as Any)
-                    print("ID logado:", self.idUserLogged as Any)
                 }
             })
         }
@@ -116,35 +119,41 @@ extension ChatViewController: ChatNavScreenProtocol {
 
 extension ChatViewController: ChatScreenProtocol {
     func actionSendButton() {
-        let inputMessage: String = chatScreen?.getInputMessageText() ?? ""
+        let inputMessage = (chatScreen?.getInputMessageText() ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         
-        if let idUserDestination = contact?.id {
-            let message: Dictionary<String,Any> = [
-                "idUser" : idUserLogged ?? "",
-                "text" : inputMessage,
-                "date" : FieldValue.serverTimestamp()
-            ]
-            
-            // mensagem para remetente
-            self.saveMessage(idRemetente: idUserLogged ?? "", idDestinatario: idUserDestination, message: message)
-            
-            // mensagem para destinatario
-            self.saveMessage(idRemetente: idUserDestination, idDestinatario: idUserLogged ?? "", message: message)
-            
-            var conversation: [String:Any] = ["lastMessage": message]
-            
-            // salvar conversa para remetente (dados de quem recebe)
-            conversation["idRemetente"] = idUserLogged ?? ""
-            conversation["idDestinario"] = idUserDestination
-            conversation["nameUser"] = nameContact ?? ""
-            self.saveConversation(idRemetente: idUserLogged ?? "", idDestinatario: idUserDestination, conversation: conversation)
-            
-            // salvar conversa para destinario (dados de quem envia)
-            conversation["idRemetente"] = idUserDestination
-            conversation["idDestinario"] = idUserLogged ?? ""
-            conversation["nameUser"] = nameUserLogged ?? ""
-            self.saveConversation(idRemetente: idUserDestination, idDestinatario: idUserLogged ?? "", conversation: conversation)
+        guard !inputMessage.isEmpty,
+              let idUserLogged = idUserLogged,
+              let idUserDestination = contact?.id else {
+            return
         }
+        
+        let message: [String: Any] = [
+            "idUser": idUserLogged,
+            "text": inputMessage,
+            "date": FieldValue.serverTimestamp()
+        ]
+        
+        // mensagem para remetente
+        self.saveMessage(idRemetente: idUserLogged, idDestinatario: idUserDestination, message: message)
+        
+        // mensagem para destinatario
+        self.saveMessage(idRemetente: idUserDestination, idDestinatario: idUserLogged, message: message)
+        
+        let conversationForSender: [String: Any] = [
+            "idRemetente": idUserLogged,
+            "idUserDestination": idUserDestination,
+            "nameUser": nameContact ?? "",
+            "lastMessage": inputMessage
+        ]
+        self.saveConversation(idRemetente: idUserLogged, idDestinatario: idUserDestination, conversation: conversationForSender)
+        
+        let conversationForRecipient: [String: Any] = [
+            "idRemetente": idUserDestination,
+            "idUserDestination": idUserLogged,
+            "nameUser": nameUserLogged ?? "",
+            "lastMessage": inputMessage
+        ]
+        self.saveConversation(idRemetente: idUserDestination, idDestinatario: idUserLogged, conversation: conversationForRecipient)
     }
 }
 

@@ -60,7 +60,7 @@ class HomeViewController: UIViewController {
     
     private func addListenerRecoveryConversation() {
         if let idUserLogged = auth?.currentUser?.uid {
-            conversationListener = firestore?.collection("conversation").document(idUserLogged).collection("lastConversations").addSnapshotListener({ snapshotResult, error in
+            conversationListener = firestore?.collection("conversation").document(idUserLogged).collection("lastConversation").addSnapshotListener({ snapshotResult, error in
                 if error == nil {
                     self.listConversation.removeAll()
                     
@@ -124,10 +124,15 @@ extension HomeViewController: UITableViewDelegate {
                 }
             } else {
                 let chatViewController = ChatViewController()
+                chatViewController.configure(contact: listContact[indexPath.row])
                 navigationController?.pushViewController(chatViewController, animated: true)
             }
         } else {
-            // TO DO
+            let conversation = listConversation[indexPath.row]
+            let contact = Contact(id: conversation.idUserDestination, name: conversation.name)
+            let chatViewController = ChatViewController()
+            chatViewController.configure(contact: contact)
+            navigationController?.pushViewController(chatViewController, animated: true)
         }
     }
 }

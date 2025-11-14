@@ -13,9 +13,9 @@ class IncomingTextMessageTableViewCellScreen: UIView {
     private lazy var contactMessageView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(red: 6/255, green: 46/255, blue: 56/255, alpha: 1.0)
+        view.backgroundColor = .systemTeal.withAlphaComponent(0.2)
         view.layer.cornerRadius = 20
-        view.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMinYCorner]
+        view.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner]
         return view
     }()
     

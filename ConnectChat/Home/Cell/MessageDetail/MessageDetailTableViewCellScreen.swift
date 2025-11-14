@@ -23,7 +23,7 @@ class MessageDetailTableViewCellScreen: UIView {
     private lazy var userName: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Novo contato"
+        label.text = "Nome do Usuário"
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         label.textColor = .white
         label.numberOfLines = 2

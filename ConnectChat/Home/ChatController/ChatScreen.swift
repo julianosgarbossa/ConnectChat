@@ -27,8 +27,10 @@ class ChatScreen: UIView {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = UIColor(red: 6/255, green: 46/255, blue: 56/255, alpha: 1.0)
-        tableView.transform = CGAffineTransform(scaleX: 1, y: 1)
+        tableView.transform = CGAffineTransform(scaleX: 1, y: -1)
         tableView.separatorStyle = .none
+        tableView.separatorColor = .clear
+        tableView.showsVerticalScrollIndicator = false
         tableView.tableFooterView = UIView()
         tableView.register(OutgoingTextMessageTableViewCell.self, forCellReuseIdentifier: OutgoingTextMessageTableViewCell.identifier)
         tableView.register(IncomingTextMessageTableViewCell.self, forCellReuseIdentifier: IncomingTextMessageTableViewCell.identifier)
