@@ -55,6 +55,7 @@ class ChatScreen: UIView {
         textField.textColor = .white
         textField.backgroundColor = UIColor(red: 6/255, green: 46/255, blue: 56/255, alpha: 1.0)
         textField.autocapitalizationType = .none
+        textField.autocorrectionType = .no
         textField.layer.cornerRadius = 8
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 0))
         textField.leftViewMode = .always
@@ -196,14 +197,12 @@ extension ChatScreen: UITextFieldDelegate {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
                 self.sendButton.isEnabled = false
                 self.sendButton.layer.opacity = 0.4
-//                self.sendButton.transform = .init(scaleX: 0.8, y: 0.8)
             }, completion: { _ in
             })
         } else {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
                 self.sendButton.isEnabled = true
                 self.sendButton.layer.opacity = 1.0
-//                self.sendButton.transform = .identity
             }, completion: { _ in
             })
         }

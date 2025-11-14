@@ -11,7 +11,7 @@ import FirebaseFirestore
 class ChatViewController: UIViewController {
 
     private var chatScreen: ChatScreen?
-    
+    private var alert: Alert?
     
     override func loadView() {
         chatScreen = ChatScreen()
@@ -21,6 +21,22 @@ class ChatViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        alert = Alert(controller: self)
+        self.setProtocols()
 
+    }
+    
+    private func setProtocols() {
+        chatScreen?.chatNavScreenDelegate(delegate: self)
+    }
+}
+
+extension ChatViewController: ChatNavScreenProtocol {
+    func actionBackButton() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func actionSearchButton() {
+        alert?.getAlert(title: "Atenção", message: "A funcionalidade de pesquis ainda não foi implementada, tente novamente mais tarde!")
     }
 }

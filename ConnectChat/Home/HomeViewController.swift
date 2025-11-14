@@ -150,12 +150,13 @@ extension HomeViewController: UITableViewDataSource {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: MessageLastTableViewCell.identifier, for: indexPath) as? MessageLastTableViewCell else {
                     return UITableViewCell()
                 }
+                cell.selectionStyle = .none
                 return cell
             } else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: MessageDetailTableViewCell.identifier, for: indexPath) as? MessageDetailTableViewCell else {
                     return UITableViewCell()
                 }
-                
+                cell.selectionStyle = .none
                 cell.setupMessageDetailTableViewCell(contact: listContact[indexPath.row])
                 return cell
             }
@@ -164,7 +165,7 @@ extension HomeViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MessageDetailTableViewCell.identifier, for: indexPath) as? MessageDetailTableViewCell else {
                 return UITableViewCell()
             }
-            
+            cell.selectionStyle = .none
             cell.setupMessageDetailTableViewCell(conversation: listConversation[indexPath.row])
             return cell
         }
