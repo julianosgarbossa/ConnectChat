@@ -30,6 +30,8 @@ class ChatScreen: UIView {
         tableView.transform = CGAffineTransform(scaleX: 1, y: 1)
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
+        tableView.register(OutgoingTextMessageTableViewCell.self, forCellReuseIdentifier: OutgoingTextMessageTableViewCell.identifier)
+        tableView.register(IncomingTextMessageTableViewCell.self, forCellReuseIdentifier: IncomingTextMessageTableViewCell.identifier)
         return tableView
     }()
     
@@ -183,6 +185,16 @@ class ChatScreen: UIView {
     
     public func reloadTableView() {
         tableView.reloadData()
+    }
+    
+    public func getInputMessageText() -> String {
+        return inputMessageTextField.text ?? ""
+    }
+    
+    public func clearInputMessage() {
+        inputMessageTextField.text = ""
+        sendButton.isEnabled = false
+        sendButton.layer.opacity = 0.4
     }
 }
 
