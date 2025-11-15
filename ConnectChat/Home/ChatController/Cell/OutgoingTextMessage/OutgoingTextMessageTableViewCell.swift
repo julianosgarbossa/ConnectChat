@@ -44,7 +44,7 @@ class OutgoingTextMessageTableViewCell: UITableViewCell {
         ])
     }
     
-    public func setupCell(message: Message) {
-        outgoingTextMessageScreen.configMessage(message: message.text ?? "")
+    public func setupCell(message: Message, senderDisplayName: String) {
+        outgoingTextMessageScreen.configMessage(message: message.displayText, senderName: senderDisplayName)
     }
 }

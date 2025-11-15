@@ -19,6 +19,15 @@ class IncomingTextMessageTableViewCellScreen: UIView {
         return view
     }()
     
+    private lazy var senderNameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        return label
+    }()
+    
     private lazy var messageTextLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -38,6 +47,7 @@ class IncomingTextMessageTableViewCellScreen: UIView {
     }
     
     private func setVisualElements() {
+        addSubview(senderNameLabel)
         addSubview(contactMessageView)
         contactMessageView.addSubview(messageTextLabel)
         
@@ -46,18 +56,24 @@ class IncomingTextMessageTableViewCellScreen: UIView {
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            contactMessageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            contactMessageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            contactMessageView.widthAnchor.constraint(lessThanOrEqualToConstant: 250),
+            senderNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 4),
+            senderNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             
-            self.messageTextLabel.topAnchor.constraint(equalTo: contactMessageView.topAnchor, constant: 15),
-            self.messageTextLabel.leadingAnchor.constraint(equalTo: contactMessageView.leadingAnchor, constant: 15),
-            self.messageTextLabel.trailingAnchor.constraint(equalTo: contactMessageView.trailingAnchor, constant: -15),
-            self.messageTextLabel.bottomAnchor.constraint(equalTo: contactMessageView.bottomAnchor, constant: -15),
+            contactMessageView.topAnchor.constraint(equalTo: senderNameLabel.bottomAnchor, constant: 6),
+            contactMessageView.leadingAnchor.constraint(equalTo: senderNameLabel.leadingAnchor),
+            contactMessageView.widthAnchor.constraint(lessThanOrEqualToConstant: 250),
+            contactMessageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            senderNameLabel.trailingAnchor.constraint(equalTo: contactMessageView.trailingAnchor),
+            
+            messageTextLabel.topAnchor.constraint(equalTo: contactMessageView.topAnchor, constant: 12),
+            messageTextLabel.leadingAnchor.constraint(equalTo: contactMessageView.leadingAnchor, constant: 15),
+            messageTextLabel.trailingAnchor.constraint(equalTo: contactMessageView.trailingAnchor, constant: -15),
+            messageTextLabel.bottomAnchor.constraint(equalTo: contactMessageView.bottomAnchor, constant: -12),
         ])
     }
     
-    public func configMessage(message: String?) {
+    public func configMessage(message: String?, senderName: String) {
+        senderNameLabel.text = senderName
         messageTextLabel.text = message ?? ""
     }
 }

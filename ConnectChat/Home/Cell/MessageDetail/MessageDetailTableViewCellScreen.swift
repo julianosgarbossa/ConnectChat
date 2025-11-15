@@ -27,6 +27,7 @@ class MessageDetailTableViewCellScreen: UIView {
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         label.textColor = .white
         label.numberOfLines = 2
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
     
@@ -55,6 +56,7 @@ class MessageDetailTableViewCellScreen: UIView {
             
             userName.centerYAnchor.constraint(equalTo: centerYAnchor),
             userName.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 15),
+            userName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
         ])
     }
     
