@@ -180,6 +180,10 @@ class ChatScreen: UIView {
         chatNavScreen.delegate(delegate: delegate)
     }
     
+    public func setNavProfileImage(urlString: String?) {
+        chatNavScreen.setProfileImage(urlString: urlString)
+    }
+    
     public func configTableViewProtocols(delegate: UITableViewDelegate, dataSource: UITableViewDataSource) {
         tableView.delegate = delegate
         tableView.dataSource = dataSource

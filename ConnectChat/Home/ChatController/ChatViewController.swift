@@ -21,6 +21,7 @@ class ChatViewController: UIViewController {
     private var firestore: Firestore?
     private var nameContact: String?
     private var nameUserLogged: String?
+    private var photoURLUserLogged: String?
     
     override func loadView() {
         chatScreen = ChatScreen()
@@ -65,11 +66,18 @@ class ChatViewController: UIViewController {
         if let name = contact?.name {
             nameContact = name
         }
+        
+        DispatchQueue.main.async {
+            self.chatScreen?.setNavProfileImage(urlString: self.contact?.photoURL)
+        }
     }
 
     public func configure(contact: Contact) {
         self.contact = contact
         self.nameContact = contact.name
+        if isViewLoaded {
+            chatScreen?.setNavProfileImage(urlString: contact.photoURL)
+        }
     }
     
     private func addListenerRecoveryMessages() {
@@ -116,6 +124,7 @@ class ChatViewController: UIViewController {
                     if !fetchedName.isEmpty {
                         self.nameUserLogged = fetchedName
                     }
+                    self.photoURLUserLogged = data.photoURL
                     self.chatScreen?.reloadTableView()
                 }
             }
@@ -375,7 +384,8 @@ extension ChatViewController: ChatScreenProtocol {
             "idRemetente": idUserLogged,
             "idUserDestination": idUserDestination,
             "nameUser": nameContact ?? "",
-            "lastMessage": inputMessage
+            "lastMessage": inputMessage,
+            "photoURL": contact?.photoURL ?? ""
         ]
         self.saveConversation(idRemetente: idUserLogged, idDestinatario: idUserDestination, conversation: conversationForSender)
         
@@ -383,7 +393,8 @@ extension ChatViewController: ChatScreenProtocol {
             "idRemetente": idUserDestination,
             "idUserDestination": idUserLogged,
             "nameUser": nameUserLogged ?? "",
-            "lastMessage": inputMessage
+            "lastMessage": inputMessage,
+            "photoURL": photoURLUserLogged ?? ""
         ]
         self.saveConversation(idRemetente: idUserDestination, idDestinatario: idUserLogged, conversation: conversationForRecipient)
     }

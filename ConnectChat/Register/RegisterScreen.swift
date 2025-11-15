@@ -11,17 +11,22 @@ protocol RegisterScreenProtocol: AnyObject {
     func actionRegisterButton()
     func actionLoginButton()
     func actionTextDidChange()
+    func actionAvatarTapped(from view: UIView)
 }
 
 class RegisterScreen: UIView {
     
     private weak var delegate: RegisterScreenProtocol?
-
+    private let defaultProfileImage = UIImage(named: "Photo")
+    
     private lazy var photoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "Photo")
-        imageView.contentMode = .scaleToFill
+        imageView.image = defaultProfileImage
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 75
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -115,6 +120,10 @@ class RegisterScreen: UIView {
         self.delegate?.actionTextDidChange()
     }
     
+    @objc private func tappedPhotoImageView() {
+        self.delegate?.actionAvatarTapped(from: photoImageView)
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setVisualElemnets()
@@ -134,6 +143,9 @@ class RegisterScreen: UIView {
         setupLeftIcon(for: nameTextField, systemName: "person")
         setupLeftIcon(for: emailTextField, systemName: "envelope")
         setupLeftIcon(for: passwordTextField, systemName: "lock")
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedPhotoImageView))
+        photoImageView.addGestureRecognizer(tapGesture)
         
         addSubview(photoImageView)
         addSubview(titleLabel)
@@ -235,6 +247,22 @@ class RegisterScreen: UIView {
     
     public func delegate(delegate: RegisterScreenProtocol?){
         self.delegate = delegate
+    }
+    
+    public func setProfileImage(_ image: UIImage?) {
+        if let image = image {
+            photoImageView.image = image
+        } else {
+            photoImageView.image = defaultProfileImage
+        }
+    }
+    
+    public func resetProfileImage() {
+        photoImageView.image = defaultProfileImage
+    }
+    
+    public func getDefaultProfileImage() -> UIImage? {
+        return defaultProfileImage
     }
     
     public func validateTextFields() {

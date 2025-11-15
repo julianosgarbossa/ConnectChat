@@ -129,7 +129,7 @@ extension HomeViewController: UITableViewDelegate {
             }
         } else {
             let conversation = listConversation[indexPath.row]
-            let contact = Contact(id: conversation.idUserDestination, name: conversation.name)
+            let contact = Contact(id: conversation.idUserDestination, name: conversation.name, photoURL: conversation.photoURL)
             let chatViewController = ChatViewController()
             chatViewController.configure(contact: contact)
             navigationController?.pushViewController(chatViewController, animated: true)

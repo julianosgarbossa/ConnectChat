@@ -15,6 +15,7 @@ protocol ChatNavScreenProtocol: AnyObject {
 class ChatNavScreen: UIView {
 
     private weak var delegate: ChatNavScreenProtocol?
+    private let placeholderImage = UIImage(named: "Photo")
     
     private lazy var navBackgroundView: UIView = {
         let view = UIView()
@@ -51,8 +52,7 @@ class ChatNavScreen: UIView {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 25
-        imageView.image = UIImage(systemName: "person.crop.circle")?.withRenderingMode(.alwaysTemplate)
-        imageView.tintColor = .white
+        imageView.image = placeholderImage
         return imageView
     }()
     
@@ -158,6 +158,10 @@ class ChatNavScreen: UIView {
     
     public func delegate(delegate: ChatNavScreenProtocol?) {
         self.delegate = delegate
+    }
+
+    public func setProfileImage(urlString: String?) {
+        imageProfile.setRemoteImage(urlString: urlString, placeholder: placeholderImage)
     }
 
 }

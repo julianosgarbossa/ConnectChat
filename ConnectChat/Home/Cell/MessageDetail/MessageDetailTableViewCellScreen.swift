@@ -9,14 +9,15 @@ import UIKit
 
 class MessageDetailTableViewCellScreen: UIView {
     
+    private let placeholderImage = UIImage(named: "Photo")
+    
     private lazy var profileImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.contentMode = .scaleAspectFit
+        image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.layer.cornerRadius = 25
-        image.image = UIImage(systemName: "person.crop.circle")?.withRenderingMode(.alwaysTemplate)
-        image.tintColor = .white
+        image.image = placeholderImage
         return image
     }()
     
@@ -74,11 +75,17 @@ class MessageDetailTableViewCellScreen: UIView {
         userName.attributedText = attributedText
     }
     
+    private func updateProfileImage(with urlString: String?) {
+        profileImageView.setRemoteImage(urlString: urlString, placeholder: placeholderImage)
+    }
+    
     public func configContact(contact: Contact) {
         setUserName(userName: contact.name ?? "")
+        updateProfileImage(with: contact.photoURL)
     }
     
     public func configConversation(conversation: Conversation) {
         setUserNameAttributedText(conversation: conversation)
+        updateProfileImage(with: conversation.photoURL)
     }
 }
