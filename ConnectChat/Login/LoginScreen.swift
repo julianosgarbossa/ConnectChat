@@ -121,8 +121,6 @@ class LoginScreen: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setVisualElements()
-        emailTextField.text = "teste@gmail.com"
-        passwordTextField.text = "teste123"
     }
     
     required init?(coder: NSCoder) {
