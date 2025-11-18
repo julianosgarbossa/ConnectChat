@@ -10,6 +10,9 @@ Aplicativo iOS de mensagens em tempo real, desenvolvido como projeto final da di
   <img src="Assets/Conversas.png" width="180"/>
   <img src="Assets/Contatos.png" width="180"/>
   <img src="Assets/Chat.png" width="180"/>
+  <img src="Assets/ChatFuncoes.png" width="180"/>
+  <img src="Assets/ChatEdicao.png" width="180"/>
+  <img src="Assets/ChatExclusao.png" width="180"/>
 </p>
 
 ## 📱 Sobre o Projeto
